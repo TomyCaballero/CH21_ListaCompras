@@ -7,8 +7,16 @@ let tabla = document.getElementById("tablaListaCompras");
 let cuerpoTabla = tabla.getElementsByTagName("tbody");
 let btnAgregar = document.getElementById("btnAgregar");
 let alertValidaciones = document.getElementById("alertValidaciones");
-let idTimeout;
 let alertValidacionesTexto = document.getElementById("alertValidacionesTexto");
+let contadorProductos = document.getElementById("contadorProductos");
+let productosTotal = document.getElementById("productosTotal");
+let precioTotal = document.getElementById("precioTotal");
+let idTimeout;
+let contador = 0;
+let cantidad = 0;
+let totalEnProductos = 0;
+let costoTotal = 0;
+let precio = 0;
 // txtNombre.value = txtNombre.value.trim();
 // alertValidaciones.style.display="none";
 // alertValidaciones.innerHTML="";
@@ -78,7 +86,34 @@ btnAgregar.addEventListener("click", function(event){
             idTimeout = setTimeout (function() {
                 alertValidaciones.style.display="none";
             }, 5000);
-    
+            return false;
+        }  // if ! validaciones
+        txtNombre.style.border="";
+        txtNumber.style.border="";
+        alertValidaciones.style.display="none";
+        contador++;
+        contadorProductos.innerHTML = contador;
+        cantidad = parseFloat(txtNumber.value);
+        totalEnProductos += cantidad;
+        productosTotal.innerHTML = totalEnProductos;
+        precio = getPrecio();
+        costoTotal += precio * cantidad;
+        precioTotal.innerHTML ="$ " + costoTotal.toFixed(2);
 
-        }     
+        let row = `<tr>
+            <td> ${contador} </td>
+            <td> ${txtNombre.value} </td>
+            <td> ${txtNumber.value} </td>
+            <td> ${precio} </td>
+        </tr>`; 
+
+        cuerpoTabla[0].insertAdjacentHTML("beforeend", row);
+
+        txtNombre.value="";
+        txtNumber.value="";
+        txtNombre.focus();
+
+
+
+
 });
